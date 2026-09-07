@@ -186,3 +186,11 @@ AI-DLC 워크플로우를 시작해봅시다. 오늘 하루 4-5시간 안에 동
 **Context**: CONSTRUCTION - Build and Test 완료, 승인 게이트 제시
 
 ---
+
+## Build and Test 승인 / 워크플로우 종료
+**Timestamp**: 2026-09-07T13:45:00Z
+**User Input**: "승인"
+**AI Response**: "Build and Test 승인 확인. OPERATIONS 단계는 현재 워크플로우에서 플레이스홀더(배포/모니터링 향후 확장)이므로 실행할 산출물이 없음. AI-DLC 워크플로우 종료. 동작하는 MVP(백엔드 API + 고객/관리자 웹앱)는 main에 전부 병합됨. aidlc-state를 완료로 갱신."
+**Context**: CONSTRUCTION 전체 승인 → OPERATIONS 플레이스홀더 → MVP 종료
+
+---
