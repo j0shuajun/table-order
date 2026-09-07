@@ -226,3 +226,9 @@ AI-DLC 워크플로우를 시작해봅시다. 오늘 하루 4-5시간 안에 동
 **Context**: 기능 구현 완료 + UI 문구 교정 + 원격 연결/푸시
 
 ---
+
+## Brownfield 챌린지 A — UI 테마 리디자인 (Requirements + Workflow Planning)
+**Timestamp**: 2026-09-07T22:10:00Z
+**User Input**: "이제 챌린지 A도 ai-dlc 방법으로 진행하고 싶어. 범위는 고객/관리자 화면 전부이고, 참고하고 싶은 브랜드는 배달의 민족이야." / "AI-DLC 방법론을 따르는게 맞아"
+**AI Response**: "Brownfield 사이클 시작. feat/ui-baemin-theme 브랜치 생성, 기존 CSS 스코핑 완료. 계획 문서(2026-09-07-04_ui-baemin-theme_plan.md) 작성. Adaptive 스테이지 결정: RE/User Stories/App Design/Units/Functional·NFR·Infra Design SKIP → Requirements→Code Generation→Build&Test. 배민 톤(민트 #2AC1BC + 주아체/도현체 웹폰트, 둥근 형태) 디자인 방향 제시. 코드 변경 전 승인 대기."
+**Context**: 승인 게이트 — 코드 생성 전 요구사항/워크플로 계획 제시
