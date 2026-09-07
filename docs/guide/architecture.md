@@ -54,3 +54,19 @@ HS256 JWT(발급 16시간). 클레임 `role`(`admin`|`table`), `store_id`, 그�
 식별자(admin: `username`, table: `table_id`/`table_number`). REST는 `Authorization:
 Bearer`, SSE는 EventSource 헤더 제약 때문에 `?token=` 쿼리로 검증한다. 미인증/만료 401,
 role 불일치 403.
+
+## 프론트엔드
+빌드 도구 없는 순수 HTML/CSS/Vanilla JS를 FastAPI가 직접 서빙한다. 토큰은
+`localStorage`에 저장하고, 공용 헬퍼(`static/js/api.js`, `window.API`)가 매장 ID·토큰
+저장·`request()`·통화/시간 포맷을 담당한다. 스타일은 `static/css/app.css` 하나를 공유한다.
+
+| 화면 | 진입 | 스크립트 | 주요 흐름 |
+| --- | --- | --- | --- |
+| 고객 앱 | `/` (`index.html`) | `customer.js` | 테이블 인증(1회) → 메뉴 탐색 → 장바구니 → 주문 → 현재 주문/합계 조회 |
+| 관리자 앱 | `/admin` (`admin.html`) | `admin.js` | 관리자 로그인 → 테이블 대시보드(SSE 실시간) → 주문 상세(상태변경·삭제·이용완료·과거내역) / 테이블 등록 / 메뉴·카테고리 CRUD |
+
+관리자 앱은 로그인 직후 `EventSource(/api/admin/stream?token=)`로 SSE에 연결한다.
+`order_created` 수신 시 해당 테이블 카드를 약 30초간 강조하고, `order_created`·
+`order_updated`·`order_deleted`·`session_closed` 모든 이벤트에서 대시보드(및 열려 있는
+상세 모달)를 다시 로드해 화면을 최신 상태로 유지한다. 상태 변경/삭제 등 사용자 조작은
+응답성을 위해 SSE와 별개로 즉시 갱신도 트리거한다.

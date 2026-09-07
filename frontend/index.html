@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>테이블오더 · 주문</title>
+    <link rel="stylesheet" href="/static/css/app.css" />
+  </head>
+  <body>
+    <!-- 테이블 인증 (토큰 없거나 만료 시) -->
+    <section id="auth-view" class="login-wrap hidden">
+      <div class="card login-card">
+        <h2>테이블 인증</h2>
+        <p class="muted">태블릿 초기 설정 시 1회 입력합니다.</p>
+        <div class="grid">
+          <input id="auth-store" placeholder="매장 ID" value="store001" />
+          <input id="auth-table" placeholder="테이블 번호 (예: T1)" />
+          <input id="auth-pw" type="password" placeholder="비밀번호" />
+          <button id="auth-submit">연결</button>
+          <div id="auth-error" class="muted"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 메인 앱 -->
+    <section id="app-view" class="hidden">
+      <div class="topbar">
+        <div class="title">🍽️ <span id="table-label">테이블</span></div>
+        <div class="tabs" style="margin: 0">
+          <button data-tab="menu" class="active">메뉴</button>
+          <button data-tab="orders">현재 주문</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- 메뉴 탭 -->
+        <div id="tab-menu">
+          <div id="menu-root" class="grid"></div>
+        </div>
+
+        <!-- 현재 주문 탭 -->
+        <div id="tab-orders" class="hidden">
+          <div class="row space">
+            <h2>현재 주문 내역</h2>
+            <div class="badge" id="session-total">합계 0원</div>
+          </div>
+          <div id="orders-root" class="grid"></div>
+        </div>
+      </div>
+
+      <!-- 장바구니 (메뉴 탭에서만) -->
+      <div id="cart-bar" class="container">
+        <div class="card cart">
+          <div class="row space">
+            <h3 style="margin: 0">장바구니</h3>
+            <button id="cart-clear" class="ghost">비우기</button>
+          </div>
+          <div id="cart-lines"></div>
+          <div class="row space" style="margin-top: 0.6rem">
+            <strong id="cart-total">합계 0원</strong>
+            <button id="cart-submit" disabled>주문하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/customer.js"></script>
+  </body>
+</html>
