@@ -143,7 +143,7 @@
     if (line) line.quantity += 1;
     else state.cart[m.id] = { menu: m, quantity: 1 };
     renderCart();
-    toast(m.name + " 담음");
+    toast(m.name + " 담았습니다.");
   }
 
   function changeQty(menuId, delta) {

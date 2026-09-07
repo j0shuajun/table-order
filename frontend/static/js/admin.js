@@ -5,6 +5,8 @@
   var A = window.API;
 
   var STATUS_LABEL = { pending: "접수", preparing: "준비중", completed: "완료" };
+  // Button labels for "change status to X" — particle chosen for each word.
+  var STATUS_ACTION = { pending: "접수로", preparing: "준비중으로", completed: "완료로" };
   var STATUS_FLOW = ["pending", "preparing", "completed"];
 
   var state = {
@@ -264,7 +266,7 @@
       if (s === o.status) return;
       var b = document.createElement("button");
       b.className = "secondary";
-      b.textContent = STATUS_LABEL[s] + "로";
+      b.textContent = STATUS_ACTION[s];
       b.onclick = function () {
         changeStatus(o.order_id, s);
       };
@@ -404,7 +406,7 @@
         body.appendChild(tr);
       });
     } catch (e) {
-      toast(e.detail || "테이블 목록 실패");
+      toast(e.detail || "테이블 목록을 불러오지 못했습니다.");
     }
   }
 
@@ -493,7 +495,7 @@
       renderMenuManage();
       renderCategoryOptions();
     } catch (e) {
-      toast(e.detail || "메뉴 불러오기 실패");
+      toast(e.detail || "메뉴를 불러오지 못했습니다.");
     }
   }
 
@@ -526,7 +528,7 @@
         actions.className = "row";
         var edit = document.createElement("button");
         edit.className = "ghost";
-        edit.textContent = "가격수정";
+        edit.textContent = "가격 수정";
         edit.onclick = function () {
           editMenuPrice(m);
         };
