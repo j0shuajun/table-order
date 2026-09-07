@@ -194,3 +194,35 @@ AI-DLC 워크플로우를 시작해봅시다. 오늘 하루 4-5시간 안에 동
 **Context**: CONSTRUCTION 전체 승인 → OPERATIONS 플레이스홀더 → MVP 종료
 
 ---
+
+## Post-MVP Enhancement — 온보딩 가이드 / 비밀번호 관리
+**Timestamp**: 2026-09-07T14:20:00Z
+**User Input**: "어떻게 사용해야 하는지 온보딩 가이드를 docs/~~.md 로 작성해줘"
+**AI Response**: "docs/onboarding.md 작성(서버 실행·관리자 사용법·손님 주문·대표 시나리오·환경변수)."
+**Context**: 워크플로우 종료 후 사용자 대상 가이드 추가
+
+---
+
+## Post-MVP Enhancement — 지원 범위 질문 및 온보딩 반영
+**Timestamp**: 2026-09-07T14:35:00Z
+**User Input**: "새로운 가게를 등록하거나, 관리자 계정 정보 변경 혹은 0000 같은 비밀번호 변경은 어떻게 해야하는거야? 그리고 환경변수는 왜 필요한거야?" / "이 질문에 대한 답변을 onboarding에 녹여내줘"
+**AI Response**: "질문 시점 기준 지원 범위(다매장·계정변경·기존 비번변경 ❌, 새 테이블 등록 ✅)와 환경변수 목적을 설명하고 onboarding.md 5·6절로 반영."
+**Context**: 사용자 질문 → 문서 반영(요구사항 수정 아님)
+
+---
+
+## Post-MVP Enhancement — .env.sample 및 실현 가능성 검토
+**Timestamp**: 2026-09-07T14:50:00Z
+**User Input**: ".env.sample 만들어주면 그거 채워 넣을게. 그리고 기존 설계 방향을 뒤집지 않는 선에서 내가 말한 것 중에 수정할 수 있는게 뭐가 있어?" / "둘 다." / "BE/FE 전부 다 수정하는거지?"
+**AI Response**: ".env.sample 생성. 기존 단일 매장 설계를 유지하면서 추가 가능한 두 가지(기존 테이블 비밀번호 재설정, 관리자 본인 비밀번호 변경)를 제안 → 사용자가 '둘 다' 승인, BE/FE 모두 수정 확인. feat/password-management 브랜치에서 구현."
+**Context**: 설계 비반전 범위 내 기능 추가 결정
+
+---
+
+## Post-MVP Enhancement — 원격 저장소 연결 / UI 문구 점검
+**Timestamp**: 2026-09-07T14:55:00Z
+**User Input**: "https://github.com/j0shuajun/table-order 그리고여기 원격 repo 만들어놨는데 연결도 해줘." / "(참고) PR 없이 그냥 바로 push 만 하면 돼. 브랜치 구분만 잘 하면 됨" / "아까 UI 보니까 '완료중로' 라고 되어있던데 일괄로 버튼 때려박으니까 맞춤법도 틀리는게 있더라. 모든 UI 다 점검해"
+**AI Response**: "비밀번호 관리 BE(서비스+엔드포인트+테스트)/FE(관리자 UI) 구현·검증(테이블 재인증 200/구비번 401, 관리자 재로그인 200/구비번 401). UI 전체 문구 점검하여 '준비중로'→'준비중으로' 등 조사·띄어쓰기 오류 수정. 원격 origin 연결 후 PR 없이 브랜치 push."
+**Context**: 기능 구현 완료 + UI 문구 교정 + 원격 연결/푸시
+
+---
