@@ -3,7 +3,7 @@
 ## Project Information
 - **Project Type**: Greenfield
 - **Start Date**: 2026-09-07T01:52:11Z
-- **Current Stage**: CONSTRUCTION - U2 Frontend Code Generation 완료 (완료 게이트 대기)
+- **Current Stage**: CONSTRUCTION - Build and Test 완료 (승인 게이트 대기)
 - **Construction Gate Mode**: 단계별 승인 (유닛/단계마다 사용자 승인)
 - **Key Constraint**: Working MVP within 4-5 hours today. Prioritize functional completeness over non-functional perfection.
 
@@ -37,7 +37,7 @@
 - [ ] Infrastructure Design (per-unit, TBD)
 - [x] Code Generation — U1 Backend (Part 1 Planning [x APPROVED], Part 2 Generation [x]) — 31 tests pass, uvicorn+SSE 런타임 스모크 확인, feat/u1-backend → main `--no-ff` 병합
 - [x] Code Generation — U2 Frontend (Part 1 Planning [x APPROVED], Part 2 Generation [x]) — 고객 앱/관리자 앱 3커밋(공용 셸+api.js+css, 고객 앱, 관리자 앱), uvicorn 실서버 기능 스모크(로그인→주문→상태변경→완료→내역→메뉴) 확인, 완료 게이트 대기
-- [ ] Build and Test
+- [x] Build and Test — 31 tests pass, API 플로우 통합/SSE 성능(≈0.02s) 스모크 확인. 지침 5종 문서화(build/unit/integration/performance/summary). 승인 게이트 대기
 
 ## Extension Configuration
 | Extension | Enabled | Decided At |
