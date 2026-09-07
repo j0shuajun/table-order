@@ -17,7 +17,7 @@ from app.api import admin, auth, customer, stream
 from app.core.db import SessionLocal, create_all
 from app.core.errors import DomainError
 from app.core.events import broker
-from app.seed import seed_if_empty
+from app.seed import backfill_menu_images, seed_if_empty
 
 _FRONTEND = Path(__file__).resolve().parent.parent / "frontend"
 
@@ -28,6 +28,7 @@ async def lifespan(_app: FastAPI):
     broker.bind_loop(asyncio.get_running_loop())
     with SessionLocal() as db:
         seed_if_empty(db)
+        backfill_menu_images(db)
     yield
 
 
