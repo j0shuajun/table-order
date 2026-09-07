@@ -138,3 +138,35 @@ AI-DLC 워크플로우를 시작해봅시다. 오늘 하루 4-5시간 안에 동
 **Context**: CONSTRUCTION - U1 Backend Code Generation Part 2 complete. GATE: awaiting approval before U2 Frontend.
 
 ---
+
+## Code Generation (U1 Backend) — Completion Gate Approved
+**Timestamp**: 2026-09-07T04:05:00Z
+**User Input**: "approve"
+**AI Response**: "U1 Backend Code Generation 완료 승인. feat/u1-backend → main `--no-ff` 병합 완료. U2 Frontend로 진행. 단계별 승인 모드 — U2 Code Generation Part 1(Planning) 시작: feat/u2-frontend 분기, u2-frontend-code-generation-plan.md 작성 후 Part 1 승인 게이트 제시."
+**Context**: CONSTRUCTION - U1 complete & merged. Proceeding to U2 Frontend Code Generation Part 1.
+
+---
+
+## Code Generation (U2 Frontend) — Part 1 Plan Created, Approval Requested
+**Timestamp**: 2026-09-07T04:10:00Z
+**User Input**: (approval prompt presented — awaiting response)
+**AI Response**: "feat/u2-frontend 분기(main에서). aidlc-docs/construction/plans/u2-frontend-code-generation-plan.md 작성 — 6 논리 슬라이스(공통 셸+API 클라이언트 → 고객 자동로그인·메뉴·카트 → 고객 주문·현재내역 → 관리자 로그인·대시보드 → 관리자 실시간·상태변경·삭제 → 관리자 관리(테이블/세션/과거내역/메뉴 CRUD)). 정적 레이아웃 결정: U1이 이미 서빙하는 frontend/(→ /, /admin, /static/*)에 맞춰 index.html/admin.html/static/{css,js,img} 생성(api-contract URL 충족, 병합된 U1 재수정 회피). 검증: 자동 단위테스트 대신 브라우저/런타임 워크스루(시나리오 1~5) + 정적 자산 200·콘솔 무에러. 스토리: CUST-1/2/4/5 + ADMIN-1/2/3/4. Presenting Part 1 approval gate (step-by-step mode)."
+**Context**: CONSTRUCTION - U2 Frontend Code Generation Part 1. GATE: awaiting plan approval before generation.
+
+---
+
+## Code Generation (U2 Frontend) — Part 1 Approved, Part 2 Generation Started
+**Timestamp**: 2026-09-07T04:15:00Z
+**User Input**: "approve"
+**AI Response**: "U2 Frontend plan APPROVED. Part 1 완료 표시. Part 2 생성 시작 — 커밋 경계 조정: (1) 공통 셸 + api.js + css, (2) 고객 앱(customer.js + index.html, S2+S3), (3) 관리자 앱(admin.js + admin.html, S4+S5+S6). frontend/ 레이아웃(U1 서빙과 일치). 완료 후 브라우저/런타임 워크스루 검증."
+**Context**: CONSTRUCTION - U2 Frontend Code Generation Part 2. Generation in progress.
+
+---
+
+## U2 Frontend Code Generation - Part 2 완료
+**Timestamp**: 2026-09-07T13:20:00Z
+**User Input**: (직전 "approve"로 Part 2 생성 승인됨 — 이어서 관리자 앱 생성/검증)
+**AI Response**: "관리자 앱(admin.html + admin.js) 생성. api.js/서버 스키마 정합 검증, node 구문 검사 통과. 실 uvicorn 서버 대상 기능 스모크(관리자 로그인→대시보드→테이블 주문 생성→상세 조회→상태변경 preparing→이용완료→과거내역→메뉴 목록) 전부 정상. 커밋 3개: (1) 공용 셸+api.js+css, (2) 고객 앱, (3) 관리자 앱. U2 결과 문서 작성, architecture.md에 프론트엔드 화면 맵 추가."
+**Context**: CONSTRUCTION - U2 Frontend Code Generation Part 2 완료, 완료 게이트 제시 예정
+
+---
