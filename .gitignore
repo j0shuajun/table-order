@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+
+# Editor swap files
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Runtime data (SQLite DB is created on startup)
+table_order.db
+*.sqlite3
+
+# Temporary task state (never committed)
+work/
