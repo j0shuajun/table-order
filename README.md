@@ -21,6 +21,7 @@ python3 -m venv .venv
 - 관리자 메뉴/카테고리·테이블 관리
 
 ## 문서
+- 사용법(온보딩): [`docs/onboarding.md`](docs/onboarding.md)
 - 아키텍처: [`docs/guide/architecture.md`](docs/guide/architecture.md)
 - 개발/실행/테스트: [`docs/guide/development.md`](docs/guide/development.md)
 - API 계약(단일 진실 원천): `aidlc-docs/inception/application-design/api-contract.md`
