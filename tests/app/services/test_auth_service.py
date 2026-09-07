@@ -3,7 +3,7 @@
 import bcrypt
 import pytest
 
-from app.core.errors import AuthError
+from app.core.errors import AuthError, ValidationError
 from app.core.security import decode_token
 from app.models import AdminUser
 from app.services import auth_service
@@ -46,3 +46,24 @@ def test_table_auth_success_and_token_claims(db, seeded_store):
 def test_table_auth_wrong_password(db, seeded_store):
     with pytest.raises(AuthError):
         auth_service.table_auth(db, "store001", "T1", "9999")
+
+
+def test_change_admin_password_allows_relogin(db, seeded_store):
+    _seed_admin(db)
+    auth_service.change_admin_password(db, "store001", "admin", "admin1234", "newpass1")
+    # New password logs in; the old one no longer works.
+    assert auth_service.admin_login(db, "store001", "admin", "newpass1") is not None
+    with pytest.raises(AuthError):
+        auth_service.admin_login(db, "store001", "admin", "admin1234")
+
+
+def test_change_admin_password_wrong_current(db, seeded_store):
+    _seed_admin(db)
+    with pytest.raises(AuthError):
+        auth_service.change_admin_password(db, "store001", "admin", "wrong", "newpass1")
+
+
+def test_change_admin_password_rejects_empty_new(db, seeded_store):
+    _seed_admin(db)
+    with pytest.raises(ValidationError):
+        auth_service.change_admin_password(db, "store001", "admin", "admin1234", "   ")

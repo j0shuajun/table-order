@@ -6,7 +6,7 @@ import pytest
 
 from app.core.errors import ConflictError, NotFoundError, ValidationError
 from app.schemas import MenuCreateRequest, MenuUpdateRequest, OrderItemRequest
-from app.services import admin_service, menu_service, order_service
+from app.services import admin_service, auth_service, menu_service, order_service
 
 FIXED_NOW = datetime(2026, 9, 7, 6, 26, 0, tzinfo=timezone.utc)
 
@@ -107,3 +107,24 @@ def test_create_table_duplicate_conflicts(db, seeded_store):
     admin_service.create_table(db, "store001", "T9", "0000")
     with pytest.raises(ConflictError):
         admin_service.create_table(db, "store001", "T9", "0000")
+
+
+def test_reset_table_password_allows_new_auth(db, seeded_store):
+    table_id = seeded_store["table_id"]
+    admin_service.reset_table_password(db, "store001", table_id, "9999")
+    # New password authenticates; old one no longer works.
+    assert auth_service.table_auth(db, "store001", "T1", "9999").id == table_id
+    with pytest.raises(Exception):
+        auth_service.table_auth(db, "store001", "T1", "0000")
+
+
+def test_reset_table_password_rejects_empty(db, seeded_store):
+    with pytest.raises(ValidationError):
+        admin_service.reset_table_password(
+            db, "store001", seeded_store["table_id"], "  "
+        )
+
+
+def test_reset_table_password_missing_table(db, seeded_store):
+    with pytest.raises(NotFoundError):
+        admin_service.reset_table_password(db, "store001", 999999, "9999")

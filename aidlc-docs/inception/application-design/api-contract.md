@@ -158,6 +158,8 @@
 - **GET /api/admin/tables/config** — 등록된 테이블 목록(번호·생성일)
 - **POST /api/admin/tables** — 테이블 생성/등록 `{ "table_number": "T7", "password": "0000" }` → 201 `{ "table_id": 7, "table_number": "T7" }`
   - (시드로 T1~T6 존재. 초기 설정은 이 등록 + `/api/table/auth`로 태블릿 토큰 발급 흐름으로 충족.)
+- **PUT /api/admin/tables/{table_id}/password** — 기존 테이블의 로그인 비밀번호 재설정 `{ "password": "9999" }` → 200 `{ "table_id": 7 }`
+  - 새 비밀번호가 공백이면 400, 없는 테이블이면 404. 재설정 후 기존 비밀번호는 즉시 무효.
 
 ### 메뉴 관리 (ADMIN-4)
 - **GET /api/admin/menus** — 카테고리별 전체(노출순).
@@ -166,6 +168,10 @@
   - 검증: name 비어있지 않음, price 정수 ≥ 0, category_id 존재. 위반 시 400.
 - **PUT /api/admin/menus/{id}** — 부분/전체 수정(노출순 포함). → 200
 - **DELETE /api/admin/menus/{id}** — 삭제. → 200 `{ "deleted_menu_id": 10 }`
+
+### 관리자 계정
+- **POST /api/admin/password** — 로그인한 관리자 본인 비밀번호 변경 `{ "current_password": "admin1234", "new_password": "newpass" }` → 200 `{ "changed": true }`
+  - 현재 비밀번호가 틀리면 401, 새 비밀번호가 공백이면 400. 변경 후 기존 비밀번호는 즉시 무효.
 
 ---
 

@@ -3,8 +3,8 @@
 from sqlalchemy.orm import Session
 
 from app.core import config
-from app.core.errors import AuthError
-from app.core.security import create_token, verify_password
+from app.core.errors import AuthError, ValidationError
+from app.core.security import create_token, hash_password, verify_password
 from app.models import AdminUser, Table
 from app.repositories import tables as table_repo
 
@@ -21,6 +21,24 @@ def table_auth(db: Session, store_id: str, table_number: str, password: str) -> 
     if table is None or not verify_password(password, table.password_hash):
         raise AuthError("테이블 정보 또는 비밀번호가 올바르지 않습니다.")
     return table
+
+
+def change_admin_password(
+    db: Session,
+    store_id: str,
+    username: str,
+    current_password: str,
+    new_password: str,
+) -> AdminUser:
+    """Change the authenticated admin's password after verifying the current one."""
+    admin = table_repo.get_admin(db, store_id, username)
+    if admin is None or not verify_password(current_password, admin.password_hash):
+        raise AuthError("현재 비밀번호가 올바르지 않습니다.")
+    if not new_password.strip():
+        raise ValidationError("새 비밀번호가 비어 있습니다.")
+    admin.password_hash = hash_password(new_password)
+    db.commit()
+    return admin
 
 
 def admin_token(admin: AdminUser) -> str:

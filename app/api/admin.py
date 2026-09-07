@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_db, require_admin
 from app.schemas import (
+    AdminPasswordChangeRequest,
+    AdminPasswordChangeResponse,
     AdminTablesResponse,
     CategoryCreateRequest,
     CategoryCreateResponse,
@@ -25,10 +27,28 @@ from app.schemas import (
     TableCreateResponse,
     TableHistoryResponse,
     TableOrdersResponse,
+    TablePasswordResetRequest,
+    TablePasswordResetResponse,
 )
-from app.services import admin_service, menu_service, order_service
+from app.services import admin_service, auth_service, menu_service, order_service
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
+
+
+@router.post("/password", response_model=AdminPasswordChangeResponse)
+def change_password(
+    req: AdminPasswordChangeRequest,
+    claims: dict = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    auth_service.change_admin_password(
+        db,
+        claims["store_id"],
+        claims["username"],
+        req.current_password,
+        req.new_password,
+    )
+    return AdminPasswordChangeResponse(changed=True)
 
 
 @router.get("/tables", response_model=AdminTablesResponse)
@@ -59,6 +79,19 @@ def create_table(
         db, claims["store_id"], req.table_number, req.password
     )
     return TableCreateResponse(table_id=table.id, table_number=table.table_number)
+
+
+@router.put("/tables/{table_id}/password", response_model=TablePasswordResetResponse)
+def reset_table_password(
+    table_id: int,
+    req: TablePasswordResetRequest,
+    claims: dict = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    table = admin_service.reset_table_password(
+        db, claims["store_id"], table_id, req.password
+    )
+    return TablePasswordResetResponse(table_id=table.id)
 
 
 @router.get("/tables/{table_id}/orders", response_model=TableOrdersResponse)

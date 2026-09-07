@@ -5,6 +5,8 @@
   var A = window.API;
 
   var STATUS_LABEL = { pending: "접수", preparing: "준비중", completed: "완료" };
+  // Button labels for "change status to X" — particle chosen for each word.
+  var STATUS_ACTION = { pending: "접수로", preparing: "준비중으로", completed: "완료로" };
   var STATUS_FLOW = ["pending", "preparing", "completed"];
 
   var state = {
@@ -264,7 +266,7 @@
       if (s === o.status) return;
       var b = document.createElement("button");
       b.className = "secondary";
-      b.textContent = STATUS_LABEL[s] + "로";
+      b.textContent = STATUS_ACTION[s];
       b.onclick = function () {
         changeStatus(o.order_id, s);
       };
@@ -391,11 +393,20 @@
       (data.tables || []).forEach(function (t) {
         var tr = document.createElement("tr");
         tr.innerHTML =
-          "<td>" + escapeHtml(t.table_number) + "</td><td class='muted'>" + A.formatDateTime(t.created_at) + "</td><td></td>";
+          "<td>" + escapeHtml(t.table_number) + "</td><td class='muted'>" + A.formatDateTime(t.created_at) + "</td>";
+        var actionCell = document.createElement("td");
+        var reset = document.createElement("button");
+        reset.className = "ghost";
+        reset.textContent = "비밀번호 변경";
+        reset.onclick = function () {
+          resetTablePassword(t.table_id, t.table_number);
+        };
+        actionCell.appendChild(reset);
+        tr.appendChild(actionCell);
         body.appendChild(tr);
       });
     } catch (e) {
-      toast(e.detail || "테이블 목록 실패");
+      toast(e.detail || "테이블 목록을 불러오지 못했습니다.");
     }
   }
 
@@ -422,6 +433,60 @@
     }
   }
 
+  async function resetTablePassword(tableId, tableNumber) {
+    var pw = window.prompt("테이블 " + tableNumber + "의 새 비밀번호", "");
+    if (pw == null) return;
+    if (!pw.trim()) {
+      toast("비밀번호를 입력하세요.");
+      return;
+    }
+    try {
+      await A.request("/api/admin/tables/" + tableId + "/password", {
+        method: "PUT",
+        token: state.token,
+        body: { password: pw },
+      });
+      toast("테이블 비밀번호를 변경했습니다.");
+    } catch (e) {
+      toast(e.detail || "변경 실패");
+    }
+  }
+
+  // --- admin account -----------------------------------------------
+  function openAdminPasswordChange() {
+    openModal("관리자 비밀번호 변경");
+    state.openTableId = null; // static form, not live-refreshed
+    var body = $("modal-body");
+    body.innerHTML =
+      '<div class="grid">' +
+      '<input id="apw-current" type="password" placeholder="현재 비밀번호" />' +
+      '<input id="apw-new" type="password" placeholder="새 비밀번호" />' +
+      '<button id="apw-submit">변경</button>' +
+      '<div id="apw-error" class="muted"></div>' +
+      "</div>";
+    $("apw-submit").onclick = submitAdminPasswordChange;
+  }
+
+  async function submitAdminPasswordChange() {
+    var current = $("apw-current").value;
+    var next = $("apw-new").value;
+    if (!current || !next.trim()) {
+      $("apw-error").textContent = "현재 비밀번호와 새 비밀번호를 입력하세요.";
+      return;
+    }
+    try {
+      await A.request("/api/admin/password", {
+        method: "POST",
+        token: state.token,
+        body: { current_password: current, new_password: next },
+      });
+      closeModal();
+      toast("비밀번호를 변경했습니다.");
+    } catch (e) {
+      $("apw-error").textContent = e.detail || "변경 실패";
+    }
+  }
+
   // --- menu management ---------------------------------------------
   async function loadMenus() {
     try {
@@ -430,7 +495,7 @@
       renderMenuManage();
       renderCategoryOptions();
     } catch (e) {
-      toast(e.detail || "메뉴 불러오기 실패");
+      toast(e.detail || "메뉴를 불러오지 못했습니다.");
     }
   }
 
@@ -463,7 +528,7 @@
         actions.className = "row";
         var edit = document.createElement("button");
         edit.className = "ghost";
-        edit.textContent = "가격수정";
+        edit.textContent = "가격 수정";
         edit.onclick = function () {
           editMenuPrice(m);
         };
@@ -586,6 +651,7 @@
   function wire() {
     $("login-submit").onclick = login;
     $("logout").onclick = logout;
+    $("admin-pw").onclick = openAdminPasswordChange;
     $("modal-close").onclick = closeModal;
     $("modal-backdrop").onclick = function (e) {
       if (e.target === $("modal-backdrop")) closeModal();

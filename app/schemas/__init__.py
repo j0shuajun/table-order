@@ -207,6 +207,24 @@ class TableCreateResponse(BaseModel):
     table_number: str
 
 
+class TablePasswordResetRequest(BaseModel):
+    password: str
+
+
+class TablePasswordResetResponse(BaseModel):
+    table_id: int
+
+
+# --- Admin account ------------------------------------------------------
+class AdminPasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+class AdminPasswordChangeResponse(BaseModel):
+    changed: bool
+
+
 # --- Menu management (admin) --------------------------------------------
 class CategoryCreateRequest(BaseModel):
     name: str

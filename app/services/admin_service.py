@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 from sqlalchemy.orm import Session
 
-from app.core.errors import ConflictError, ValidationError
+from app.core.errors import ConflictError, NotFoundError, ValidationError
 from app.core.events import broker
 from app.core.security import hash_password
 from app.models import Table
@@ -116,6 +116,21 @@ def create_table(db: Session, store_id: str, table_number: str, password: str) -
             password_hash=hash_password(password),
         ),
     )
+    db.commit()
+    db.refresh(table)
+    return table
+
+
+def reset_table_password(
+    db: Session, store_id: str, table_id: int, password: str
+) -> Table:
+    """Replace an existing table's login password with a new bcrypt hash."""
+    if not password.strip():
+        raise ValidationError("비밀번호가 비어 있습니다.")
+    table = table_repo.get(db, store_id, table_id)
+    if table is None:
+        raise NotFoundError("테이블을 찾을 수 없습니다.")
+    table.password_hash = hash_password(password)
     db.commit()
     db.refresh(table)
     return table
