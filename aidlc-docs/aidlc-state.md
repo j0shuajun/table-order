@@ -30,7 +30,7 @@
 - [x] Units Generation (APPROVED) — Part1 Planning [x], Part2 Generation [x]. Units: U1 Backend → U2 Frontend (single deployable service)
 
 ### 🟢 CONSTRUCTION PHASE
-> **실행 규약** (unit-of-work.md "구현 실행 규약" 참조): 유닛별 `feat/<unit>` 브랜치 → plan(docs/tasks/) → TDD 논리 슬라이스 즉시 로컬 커밋 → 검증 → result → docs/guide 동기화 → main으로 `--no-ff` 로컬 병합. 원격 없음(push/PR 생략). pre-commit: black/isort/ruff.
+> **실행 규약** (unit-of-work.md "구현 실행 규약" 참조): 유닛별 `feat/<unit>` 브랜치 → plan(docs/tasks/) → TDD 논리 슬라이스 즉시 로컬 커밋 → 검증 → result → docs/guide 동기화 → main으로 `--no-ff` 로컬 병합 후 origin에 push(브랜치+main). PR은 열지 않음. pre-commit: black/isort/ruff.
 - [ ] Functional Design (per-unit, TBD)
 - [ ] NFR Requirements (per-unit, TBD)
 - [ ] NFR Design (per-unit, TBD)
