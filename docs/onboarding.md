@@ -128,7 +128,19 @@ python -m uvicorn app.main:app --port 8000
 | `TABLE_ORDER_JWT_SECRET` | 코드에 박힌 데모용 문자열 | 로그인 토큰을 서명하는 **비밀 키**. 기본값은 소스에 공개돼 있어 그대로 운영하면 누구나 위조 토큰을 만들 수 있다. **운영 전 반드시 32바이트 이상 무작위 값으로 교체**한다. |
 | `TABLE_ORDER_DATABASE_URL` | `sqlite:///table_order.db` | 데이터를 저장할 **DB 위치**. 기본은 실행 폴더의 SQLite 파일 하나. 데이터 보관 경로를 옮기거나 다른 DB로 바꿀 때 지정한다. |
 
-설정 예시:
+설정 방법은 두 가지다.
+
+**방법 A — `.env` 파일 (권장)**: 저장소의 `.env.sample`을 복사해 값을 채운다.
+```bash
+cp .env.sample .env          # 편집기로 열어 값 입력
+python -m uvicorn app.main:app --env-file .env --port 8000
+```
+`.env`는 커밋되지 않는다(`.gitignore`에 등록됨). 키는 아래처럼 생성한다.
+```bash
+python3 -c "import secrets; print(secrets.token_urlsafe(48))"
+```
+
+**방법 B — 셸 export**:
 ```bash
 export TABLE_ORDER_JWT_SECRET="$(python3 -c 'import secrets;print(secrets.token_urlsafe(48))')"
 export TABLE_ORDER_DATABASE_URL="sqlite:////var/data/table_order.db"

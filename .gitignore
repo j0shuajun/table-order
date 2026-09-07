@@ -19,5 +19,8 @@ env/
 table_order.db
 *.sqlite3
 
+# Local secrets (fill from .env.sample; never committed)
+.env
+
 # Temporary task state (never committed)
 work/
