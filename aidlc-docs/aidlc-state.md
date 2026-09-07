@@ -3,7 +3,7 @@
 ## Project Information
 - **Project Type**: Greenfield
 - **Start Date**: 2026-09-07T01:52:11Z
-- **Current Stage**: CONSTRUCTION - U1 Backend Code Generation (Part 2 Generation)
+- **Current Stage**: CONSTRUCTION - U1 Backend Code Generation 완료 (U2 진행 전 사용자 승인 대기)
 - **Construction Gate Mode**: 단계별 승인 (유닛/단계마다 사용자 승인)
 - **Key Constraint**: Working MVP within 4-5 hours today. Prioritize functional completeness over non-functional perfection.
 
@@ -35,7 +35,7 @@
 - [ ] NFR Requirements (per-unit, TBD)
 - [ ] NFR Design (per-unit, TBD)
 - [ ] Infrastructure Design (per-unit, TBD)
-- [ ] Code Generation — U1 Backend (Part 1 Planning [x APPROVED], Part 2 Generation: in progress)
+- [x] Code Generation — U1 Backend (Part 1 Planning [x APPROVED], Part 2 Generation [x]) — 31 tests pass, uvicorn+SSE 런타임 스모크 확인, feat/u1-backend → main `--no-ff` 병합
 - [ ] Code Generation — U2 Frontend
 - [ ] Build and Test
 
